@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MenuUI : BasePanel
+public class MenuUI : BasePanel<MenuUI>
 {
     public Button btnStart;
     public Slider sliMusic;
 
-    public void Start()
+    public override void Init()
     {
-        btnStart.onClick.AddListener(() => { UIManager.ChangeScene("");});
-        sliMusic.onValueChanged.AddListener((float value) => {SettingData.volumeData.MusicVol= UIManager.PassValue(value); });
+        btnStart.onClick.AddListener(() => { UIManager.ChangeScene(""); });
+        sliMusic.onValueChanged.AddListener((float value) => { SettingData.volumeData.MusicVol = UIManager.PassValue(value); });
     }
+
+
+
+
+
 
 }
