@@ -3,37 +3,40 @@ using UnityEngine;
 
 public static class SoundManager
 {
-    private static GameObject soundManagerObject;
-    private static bool isInit = false;
+    private static GameObject _soundManagerObject;
+    private static bool _isInit = false;
+
     private static void Init()
     {
-        if (soundManagerObject == null)
+        if (_soundManagerObject == null)
         {
-            soundManagerObject = new GameObject("SoundManager");
-            soundManagerObject.transform.position=Camera.main.transform.position;
-            soundManagerObject.transform.SetParent(Camera.main.transform);
-            soundManagerObject.AddComponent<FakeMono>(); 
-            Object.DontDestroyOnLoad(soundManagerObject); // 确保跨场景保留
-            isInit = true;
+            _soundManagerObject = new GameObject("SoundManager");
+            _soundManagerObject.transform.position = Camera.main.transform.position;
+            _soundManagerObject.transform.SetParent(Camera.main.transform);
+            _soundManagerObject.AddComponent<FakeMono>();
+            Object.DontDestroyOnLoad(_soundManagerObject); //
+            _isInit = true;
         }
     }
 
-    public static void AddSound(string fileName, float delayTime,  float volume, GameObject father= null,float minDis= 1, float maxDis = 10)
+    public static void AddSound(string fileName, float delayTime, float volume, GameObject father = null,
+        float minDis = 1, float maxDis = 10)
     {
-        if (!isInit) Init();
-        AudioSource audioSource=null;
+        if (!_isInit) Init();
+        AudioSource audioSource = null;
         AudioClip clip = AssetManager.LoadRes<AudioClip>(fileName);
         if (clip == null)
         {
             Debug.LogError($"Failed to load sound: {fileName}");
             return;
         }
-        if (father == null) audioSource = soundManagerObject.AddComponent<AudioSource>();
+
+        if (father == null) audioSource = _soundManagerObject.AddComponent<AudioSource>();
         else audioSource = father.AddComponent<AudioSource>();
 
         audioSource.clip = clip;
         audioSource.playOnAwake = false;
-        audioSource.volume = Mathf.Clamp01(volume) * SettingData.volumeData.SoundVol;
+        audioSource.volume = Mathf.Clamp01(volume) * SettingData.VolumeData.SoundVol;
         audioSource.loop = false;
 
 
@@ -45,12 +48,9 @@ public static class SoundManager
             audioSource.maxDistance = maxDis;
         }
 
-        soundManagerObject.GetComponent<FakeMono>()
+        _soundManagerObject.GetComponent<FakeMono>()
             .StartCoroutine(PlaySoundCoroutine(delayTime, audioSource));
     }
-
- 
-
 
 
     private static IEnumerator PlaySoundCoroutine(float delayTime, AudioSource audioSource)
@@ -62,6 +62,11 @@ public static class SoundManager
     }
 
 
-    private class FakeMono : MonoBehaviour { }
-    public static void wake() { }
+    private class FakeMono : MonoBehaviour
+    {
+    }
+
+    public static void Wake()
+    {
+    }
 }

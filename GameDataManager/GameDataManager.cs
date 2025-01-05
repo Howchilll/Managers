@@ -5,33 +5,24 @@ using UnityEngine;
 
 public static class GameDataManager
 {
-
-
     static void SaveGameData()
     {
         SettingData.Write();
-        
     }
 
     static void LoadGameData()
     {
         SettingData.Read();
-        
     }
-
 
 
     static GameDataManager()
     {
-
-
-
-        SettingData.wake();
+        SettingData.Wake();
     }
 
 
-
-
-
-    static void wake() { }
+    static void Wake()
+    {
+    }
 }

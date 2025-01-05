@@ -6,37 +6,39 @@ using UnityEngine.Audio;
 
 public static class MusicManager
 {
-    private static GameObject musicManagerObject;
-    private static bool isInit = false;
-    private static Dictionary<string, AudioSource> MSDic = new Dictionary<string, AudioSource>();
+    private static GameObject _musicManagerObject;
+    private static bool _isInit = false;
+    private static Dictionary<string, AudioSource> _msDic = new Dictionary<string, AudioSource>();
+
     private static void Init()
     {
-        if (musicManagerObject == null)
+        if (_musicManagerObject == null)
         {
-            musicManagerObject = new GameObject("SoundManager");
-            musicManagerObject.transform.position = Camera.main.transform.position;
-            musicManagerObject.transform.SetParent(Camera.main.transform);
-            musicManagerObject.AddComponent<FakeMono>();
-            Object.DontDestroyOnLoad(musicManagerObject); // 确保跨场景保留
-            isInit = true;
+            _musicManagerObject = new GameObject("SoundManager");
+            _musicManagerObject.transform.position = Camera.main.transform.position;
+            _musicManagerObject.transform.SetParent(Camera.main.transform); //
+            _musicManagerObject.AddComponent<FakeMono>();
+            Object.DontDestroyOnLoad(_musicManagerObject);
+            _isInit = true;
         }
     }
 
-    public static void AddMusic(string fileName,float delay,float volume,GameObject father= null,float minDis=1, float maxDis=10)//不用拓展名
+    public static void AddMusic(string fileName, float delay, float volume, GameObject father = null, float minDis = 1,
+        float maxDis = 10) //
     {
-        AudioSource audioSource=null;
-        if (!isInit) Init();
+        AudioSource audioSource = null;
+        if (!_isInit) Init();
         AudioClip clip = AssetManager.LoadData<AudioClip>(fileName);
 
-        if(father==null) audioSource = musicManagerObject.AddComponent<AudioSource>();
+        if (father == null) audioSource = _musicManagerObject.AddComponent<AudioSource>();
         else audioSource = father.AddComponent<AudioSource>();
 
-        MSDic.Add(fileName, audioSource);
+        _msDic.Add(fileName, audioSource);
         audioSource.clip = clip;
         audioSource.loop = true;
-        audioSource.volume = Mathf.Clamp01(volume)*SettingData.volumeData.MusicVol;
+        audioSource.volume = Mathf.Clamp01(volume) * SettingData.VolumeData.MusicVol;
 
-        if(father!=null)
+        if (father != null)
         {
             audioSource.spatialBlend = 1.0f;
             audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
@@ -45,23 +47,22 @@ public static class MusicManager
         }
 
 
-
-        musicManagerObject.GetComponent<FakeMono>()
-       .StartCoroutine(PlayMusicCoroutine(delay, audioSource));
+        _musicManagerObject.GetComponent<FakeMono>()
+            .StartCoroutine(PlayMusicCoroutine(delay, audioSource));
     }
-    
+
     public static void EndMusic(string fileName)
     {
-        if (MSDic.ContainsKey(fileName)&&(MSDic[fileName]!=null))
-        musicManagerObject.GetComponent<FakeMono>()
-       .StartCoroutine(EndMusicCoroutine(fileName, MSDic[fileName]));
+        if (_msDic.ContainsKey(fileName) && (_msDic[fileName] != null))
+            _musicManagerObject.GetComponent<FakeMono>()
+                .StartCoroutine(EndMusicCoroutine(fileName, _msDic[fileName]));
     }
 
     public static void ChangeVolume()
     {
-        foreach(AudioSource AS in MSDic.Values)
+        foreach (AudioSource audioSource in _msDic.Values)
         {
-            AS.volume *= SettingData.volumeData.MusicVol;
+            audioSource.volume *= SettingData.VolumeData.MusicVol;
         }
     }
 
@@ -71,21 +72,26 @@ public static class MusicManager
         audioSource.Play();
     }
 
-    private static IEnumerator EndMusicCoroutine(string fileName,AudioSource audioSource, float time=2)
+    private static IEnumerator EndMusicCoroutine(string fileName, AudioSource audioSource, float time = 2)
     {
-        float startVolume = audioSource.volume; // 获取当前音量
+        float startVolume = audioSource.volume; // 
         float timeElapsed = 0f;
         while (timeElapsed < time)
         {
-            audioSource.volume = Mathf.Lerp(startVolume, 0f, timeElapsed / time); // 使用 Lerp 平滑过渡
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, timeElapsed / time); // 
             timeElapsed += Time.deltaTime;
-            yield return null; // 等待下一帧
+            yield return null; // 
         }
-        audioSource.volume = 0f; // 确保音量最终为 0
-        MSDic.Remove(fileName);
+
+        audioSource.volume = 0f; // 
+        _msDic.Remove(fileName);
     }
 
-    private class FakeMono : MonoBehaviour { }
+    private class FakeMono : MonoBehaviour
+    {
+    }
 
-    public static void wake() { }
+    public static void wake()
+    {
+    }
 }

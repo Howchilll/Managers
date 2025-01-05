@@ -8,66 +8,59 @@ using UnityEngine.Networking;
 
 public static class AssetManager
 {
-    private static GameObject fakeObj;
-
-    public static void WriteData(object obj, string FileName)//Application.persistentDataPath 
+    public static void WriteData(object obj, string fileName) //Application.persistentDataPath 
     {
-        string path = Path.Combine(Application.persistentDataPath, FileName);
+        string path = Path.Combine(Application.persistentDataPath, fileName);
         if (false)
         {
-            //ÆäËûÀàĞÍµÄÎÄ¼ş£¨ÓÎÏ·ÖĞÉú³ÉµÄĞèÒª¼ÇÂ¼µÄÒôÆµ Í¼Æ¬¡£¡£¡££© 
+            //å¦‚æœæ˜¯åˆ«çš„å‚¨å­˜ç±»å‹ï¼Œæ¸¸æˆæˆªå›¾ï¼Œæˆ–è€…å†…éƒ¨å½•éŸ³ã€‚ã€‚ã€‚
         }
-        else if (obj is Class || (obj.GetType().IsValueType && !obj.GetType().IsPrimitive))//Ğ´ÅäÖÃ
+        else if (obj is Class || (obj.GetType().IsValueType && !obj.GetType().IsPrimitive)) // å¦‚æœæ˜¯ç±»æˆ–è€…ç»“æ„ä½“ï¼ˆæ•°æ®ï¼‰
         {
             path += ".json";
             string jsonStr = "";
             jsonStr = JsonMapper.ToJson(obj);
-            System.IO.File.WriteAllText(path, jsonStr);
+            System.IO.File.WriteAllText(path, jsonStr);//è¿™ä¸ªæ•°æ®å®¹å™¨å°±è¢«å†™å…¥åä¸ºpathçš„jsonä¸­
         }
-
     }
 
-    public static T ReadData<T>(string FileName)//Application.persistentDataPath 
+    public static T ReadData<T>(string fileName) //Application.persistentDataPath 
     {
-        string path = Path.Combine(Application.persistentDataPath, FileName);
+        string path = Path.Combine(Application.persistentDataPath, fileName);
 
         if (false)
         {
-            //ÆäËûÀàĞÍµÄÎÄ¼ş£¨ÓÎÏ·ÖĞÉú³ÉµÄĞèÒª¼ÇÂ¼µÄÒôÆµ Í¼Æ¬¡£¡£¡££©
-         
+            //å¦‚æœæ˜¯åˆ«çš„å‚¨å­˜ç±»å‹ï¼Œæ¸¸æˆæˆªå›¾ï¼Œæˆ–è€…å†…éƒ¨å½•éŸ³ã€‚ã€‚ã€‚
         }
-        else if (typeof(T).IsClass || (typeof(T).IsValueType && !typeof(T).IsPrimitive && !typeof(T).IsEnum))//¶ÁÅäÖÃ
+        else if (typeof(T).IsClass || (typeof(T).IsValueType && !typeof(T).IsPrimitive && !typeof(T).IsEnum)) //å¦‚æœæ˜¯ç±»æˆ–è€…ç»“æ„ä½“ï¼ˆæ•°æ®ï¼‰
         {
             if (System.IO.File.Exists(path + ".json"))
             {
                 path = path + ".json";
                 string json = System.IO.File.ReadAllText(path);
                 T data = JsonMapper.ToObject<T>(json);
-                return data;
+                return data;//
             }
             else
             {
                 Debug.LogError("File not found: " + path);
                 return default;
             }
-
         }
         else
         {
             return default(T);
         }
-
-
     }
 
-    public static T LoadData<T>(string FileName)// Application.streamingAssetsPath
+    public static T LoadData<T>(string fileName) // Application.streamingAssetsPath
     {
-        string path = Path.Combine(Application.streamingAssetsPath, FileName);
+        string path = Path.Combine(Application.streamingAssetsPath, fileName);
 
 
         if (typeof(T) == typeof(AudioClip))
         {
-            if (System.IO.File.Exists(path + ".wav")|| System.IO.File.Exists(path + ".mp3"))
+            if (System.IO.File.Exists(path + ".wav") || System.IO.File.Exists(path + ".mp3"))
             {
                 path = System.IO.File.Exists(path + ".wav") ? path + ".wav" : path + ".mp3";
 
@@ -75,10 +68,9 @@ public static class AssetManager
                 {
                     var operation = request.SendWebRequest();
 
-                    // µÈ´ıÇëÇóÍê³É
+
                     while (!operation.isDone)
                     {
-                        // Èç¹ûĞèÒª£¬¿ÉÒÔÔÚÕâÀïÌí¼Ó³¬Ê±Âß¼­
                     }
 
                     if (request.result != UnityWebRequest.Result.Success)
@@ -96,9 +88,8 @@ public static class AssetManager
                 Debug.LogError("Audio file not found at: " + path);
                 return default;
             }
-
         }
-        else if (typeof(T).IsClass || (typeof(T).IsValueType && !typeof(T).IsPrimitive && !typeof(T).IsEnum))//ÅäÖÃÎÄ¼ş
+        else if (typeof(T).IsClass || (typeof(T).IsValueType && !typeof(T).IsPrimitive && !typeof(T).IsEnum)) //???????
         {
             if (System.IO.File.Exists(path + ".json"))
             {
@@ -117,32 +108,36 @@ public static class AssetManager
         return default;
     }
 
-    public static T LoadRes<T>(string FileName)//  Resources
+    public static T LoadRes<T>(string fileName) //  Resources
     {
-        if (typeof(T) == typeof(AudioClip))//ÒôĞ§
+        if (typeof(T) == typeof(AudioClip)) //???
         {
-            object audioClip = Resources.Load<AudioClip>(FileName);
+            object audioClip = Resources.Load<AudioClip>(fileName);
             return (T)audioClip;
         }
-        else if (typeof(T) == typeof(GameObject))//ÌØĞ§ Ô¤ÉèÌå 
+        else if (typeof(T) == typeof(GameObject)) //??? ????? 
         {
-            object obj = Resources.Load<GameObject>(FileName);
+            object obj = Resources.Load<GameObject>(fileName);
             return (T)obj;
         }
-        //ÆäËûÀàĞÍ×ÊÔ´
+
+        //???????????
         return default;
     }
 
     static AssetManager()
     {
-        SoundManager.wake();
-        ObjManager.wake();
+        SoundManager.Wake();
+        ObjManager.Wake();
         MusicManager.wake();
     }
 
-    public static void wake() {}
+    public static void Wake()
+    {
+    }
 
 
-    private class FakeClass : MonoBehaviour { }
-
+    private class FakeClass : MonoBehaviour
+    {
+    }
 }

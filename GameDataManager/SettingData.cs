@@ -16,38 +16,35 @@ public struct VolumeData
 }
 
 
-
 public static class SettingData
 {
-    public static VolumeData volumeData;
-    static SettingData() 
+    public static VolumeData VolumeData;
+
+    static SettingData()
     {
         if (!File.Exists(Path.Combine(Application.persistentDataPath, "VolumeData.json")))
         {
-            volumeData = new VolumeData(1, 1);
-            AssetManager.WriteData(volumeData, "VolumeData");
+            VolumeData = new VolumeData(1, 1);
+            AssetManager.WriteData(VolumeData, "VolumeData");
         }
         else
         {
-          Read();
+            Read();
         }
-
-
-
-   
     }
 
     static public void Read()
     {
-      volumeData = AssetManager.ReadData<VolumeData>("VolumeData");
+        VolumeData = AssetManager.ReadData<VolumeData>("VolumeData");
     }
+
     static public void Write()
     {
-        AssetManager.WriteData(volumeData, "VolumeData");
+        AssetManager.WriteData(VolumeData, "VolumeData");
     }
 
 
-
-
-    public static void wake() { }
+    public static void Wake()
+    {
+    }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public static class UIManager  //为UI接口提供方法
+public static class UIManager //
 {
     public static void ChangeScene(string scene)
     {
@@ -14,6 +14,4 @@ public static class UIManager  //为UI接口提供方法
     {
         return value;
     }
-
-
 }

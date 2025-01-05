@@ -11,7 +11,7 @@ public class MenuUI : BasePanel<MenuUI>
     public override void Init()
     {
         btnStart.onClick.AddListener(() => { UIManager.ChangeScene(""); });
-        sliMusic.onValueChanged.AddListener((float value) => { SettingData.volumeData.MusicVol = UIManager.PassValue(value); });
+        sliMusic.onValueChanged.AddListener((float value) => { SettingData.VolumeData.MusicVol = UIManager.PassValue(value); });
     }
 
 
