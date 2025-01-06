@@ -11,9 +11,9 @@ public static class AssetManager
     public static void WriteData(object obj, string fileName) //Application.persistentDataPath 
     {
         string path = Path.Combine(Application.persistentDataPath, fileName);
-        if (false)
+        if (false) //如果是别的储存类型，游戏截图，或者内部录音。。。
         {
-            //如果是别的储存类型，游戏截图，或者内部录音。。。
+           
         }
         else if (obj is Class || (obj.GetType().IsValueType && !obj.GetType().IsPrimitive)) // 如果是类或者结构体（数据）
         {
@@ -39,7 +39,7 @@ public static class AssetManager
                 path = path + ".json";
                 string json = System.IO.File.ReadAllText(path);
                 T data = JsonMapper.ToObject<T>(json);
-                return data;//
+                return data;
             }
             else
             {
@@ -110,12 +110,12 @@ public static class AssetManager
 
     public static T LoadRes<T>(string fileName) //  Resources
     {
-        if (typeof(T) == typeof(AudioClip)) //???
+        if (typeof(T) == typeof(AudioClip)) //
         {
             object audioClip = Resources.Load<AudioClip>(fileName);
             return (T)audioClip;
         }
-        else if (typeof(T) == typeof(GameObject)) //??? ????? 
+        else if (typeof(T) == typeof(GameObject)) //
         {
             object obj = Resources.Load<GameObject>(fileName);
             return (T)obj;
@@ -129,15 +129,18 @@ public static class AssetManager
     {
         SoundManager.Wake();
         ObjManager.Wake();
-        MusicManager.wake();
+        MusicManager.Wake();
+        GameDataManager.Wake();
     }
 
     public static void Wake()
     {
     }
-
-
-    private class FakeClass : MonoBehaviour
-    {
-    }
+    
+    
 }
+//基本都封装好了 不会直接用的   WriteData ReadData对于持久化数据的读写  LoadData对于大文件的读取 LoadRes对于内部文件的读取
+
+//Application.persistentDataPath            可读写但不被打包
+//Application.streamingAssetsPath           可读 独立于打包
+//Resources                                 可读 被打包进程序

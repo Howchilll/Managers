@@ -16,15 +16,14 @@ public static class MusicManager
         {
             _musicManagerObject = new GameObject("SoundManager");
             _musicManagerObject.transform.position = Camera.main.transform.position;
-            _musicManagerObject.transform.SetParent(Camera.main.transform); //
+            _musicManagerObject.transform.SetParent(Camera.main.transform); 
             _musicManagerObject.AddComponent<FakeMono>();
             Object.DontDestroyOnLoad(_musicManagerObject);
             _isInit = true;
         }
     }
 
-    public static void AddMusic(string fileName, float delay, float volume, GameObject father = null, float minDis = 1,
-        float maxDis = 10) //
+    public static void AddMusic(string fileName, float delay, float volume, GameObject father = null, float minDis = 1, float maxDis = 10) //
     {
         AudioSource audioSource = null;
         if (!_isInit) Init();
@@ -91,7 +90,8 @@ public static class MusicManager
     {
     }
 
-    public static void wake()
+    public static void Wake()
     {
     }
 }
+

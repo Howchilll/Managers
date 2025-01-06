@@ -22,7 +22,9 @@ public static class GameDataManager
     }
 
 
-    static void Wake()
+    static public void Wake()
     {
     }
 }
+
+//使用方法 将相关数据的读写方法加入 SaveGameData()，LoadGameData()，并在GameDataManager() 中唤醒
