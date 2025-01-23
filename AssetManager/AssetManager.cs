@@ -125,16 +125,13 @@ public static class AssetManager
         return default;
     }
 
-    static AssetManager()
+    
+    public static void Wake()
     {
         SoundManager.Wake();
         ObjManager.Wake();
         MusicManager.Wake();
         GameDataManager.Wake();
-    }
-
-    public static void Wake()
-    {
     }
     
     

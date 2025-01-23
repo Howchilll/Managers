@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class MenuUI : BasePanel<MenuUI>
@@ -13,10 +15,6 @@ public class MenuUI : BasePanel<MenuUI>
         btnStart.onClick.AddListener(() => { UIManager.ChangeScene(""); });
         sliMusic.onValueChanged.AddListener((float value) => { SettingData.VolumeData.MusicVol = UIManager.PassValue(value); });
     }
-
-
-
-
 
 
 }
