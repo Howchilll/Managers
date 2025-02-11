@@ -5,15 +5,44 @@ using UnityEngine.SceneManagement;
 
 public static class UIManager 
 {
-    public static void ChangeScene(string scene)
-    {
-        SceneManager.LoadSceneAsync(scene);
-    }
+    public static Dictionary<string,ThePanel> UIObjects = new Dictionary<string,ThePanel>();
 
-    public static float PassValue(float value)
+   
+
+    public static void Show(params string[] UINames)
     {
-        return value;
+        foreach (var name in UINames)
+        {
+            if (UIObjects.ContainsKey(name))
+            {
+              UIObjects[name].ShowMe();
+            }
+        }
+    }
+    public static void Hide(params string[] UINames)
+    {
+        foreach (var name in UINames)
+        {
+            if (UIObjects.ContainsKey(name))
+            {
+                UIObjects[name].HideMe();
+            }
+        }
+    }
+    
+
+    public static void wake()
+    {
+    }
+    public static void CleanUIObjects()
+    {
+        // foreach (var kv in UIObjects)
+        // {
+        //     if (UIObjects[kv.Key] == null)
+        //     {
+        //         UIObjects.Remove(kv.Key);
+        //     }
+        // }
+        UIObjects.Clear();
     }
 }
-
-//UI组件所相关的方法都写在这里
