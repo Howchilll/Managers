@@ -35,7 +35,7 @@ public static class SoundManager
         
             audioSource.clip = clip;
             audioSource.playOnAwake = false;
-            audioSource.volume = Mathf.Clamp01(volume) * SettingData.VolumeData.SoundVol;
+            audioSource.volume = Mathf.Clamp01(volume) * SettingData.data.volumeData.SoundVol;
             audioSource.loop = false;
 
 
@@ -62,7 +62,6 @@ public static class SoundManager
         audioSource.Play();
         yield return new WaitForSeconds(audioSource.clip.length + 0.2f);
         Object.Destroy(audioSource);
-        Debug.Log("2");
     }
 
 

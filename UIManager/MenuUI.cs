@@ -14,14 +14,10 @@ public class MenuUI : BasePanel<MenuUI>
     {
             btnStart.onClick.AddListener(() =>
             {
-                SceneLoadManager.Wake();
-             SceneLoadManager.LoadScene("SampleScene");
-             
+                SettingData.data.screenData.Brightness = 0.9f;
+                SettingData.Write();
             });
-        // sliMusic.onValueChanged.AddListener((value) =>
-        // {
-        //     
-        // });
+
 
 
     }

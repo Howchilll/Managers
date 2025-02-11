@@ -9,6 +9,7 @@ public static class GameManager
       AssetManager.Wake();
       GameDataManager.Wake();
       SceneLoadManager.Wake();
-      UIManager.wake();
+      UIManager.Wake();
+      LanguageManager.Wake();
    }
 }

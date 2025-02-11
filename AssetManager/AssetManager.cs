@@ -13,21 +13,22 @@ public static class AssetManager
         string path = Path.Combine(Application.persistentDataPath, fileName);
         if (false) //如果是别的储存类型，游戏截图，或者内部录音。。。
         {
-           
+          
         }
-        else if (obj is Class || (obj.GetType().IsValueType && !obj.GetType().IsPrimitive)) // 如果是类或者结构体（数据）
+        else if (obj.GetType().IsClass || (obj.GetType().IsValueType && !obj.GetType().IsPrimitive)) // 如果是类或者结构体（数据）
         {
             path += ".json";
             string jsonStr = "";
             jsonStr = JsonMapper.ToJson(obj);
             System.IO.File.WriteAllText(path, jsonStr);//这个数据容器就被写入名为path的json中
         }
+        Debug.Log(path);
     }
 
     public static T ReadData<T>(string fileName) //Application.persistentDataPath 
     {
         string path = Path.Combine(Application.persistentDataPath, fileName);
-
+        Debug.Log(path);
         if (false)
         {
             //如果是别的储存类型，游戏截图，或者内部录音。。。
@@ -131,7 +132,6 @@ public static class AssetManager
         SoundManager.Wake();
         ObjManager.Wake();
         MusicManager.Wake();
-        GameDataManager.Wake();
     }
     
     

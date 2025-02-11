@@ -5,24 +5,24 @@ using UnityEngine.SceneManagement;
 
 public static class SceneLoadManager
 {
-    public static float loadValue=0f;
-    public static bool changeScene = true;
-    private static GameObject _SceneLoadManager;
+    public static float LoadValue=0f;
+    public static bool ChangeScene = true;
+    private static GameObject _sceneLoadManager;
 
     private static void Init()
     {
-        if (_SceneLoadManager == null)
+        if (_sceneLoadManager == null)
         {
-            _SceneLoadManager = new GameObject("SceneLoadManager");
-            _SceneLoadManager.AddComponent<FakeMono>();
-            Object.DontDestroyOnLoad(_SceneLoadManager); 
+            _sceneLoadManager = new GameObject("SceneLoadManager");
+            _sceneLoadManager.AddComponent<FakeMono>();
+            Object.DontDestroyOnLoad(_sceneLoadManager); 
         }
     }
     
     
     public static void LoadScene(string sceneName)
     {
-        _SceneLoadManager.GetComponent<FakeMono>().StartCoroutine(_LoadScene(sceneName));
+        _sceneLoadManager.GetComponent<FakeMono>().StartCoroutine(_LoadScene(sceneName));
         
     }
 
@@ -33,9 +33,9 @@ public static class SceneLoadManager
    
         while (!load.isDone)
         {
-            if (loadValue >= 0.9f)
+            if (LoadValue >= 0.9f)
             {
-                if (changeScene)
+                if (ChangeScene)
                 {
                     load.allowSceneActivation = true;
                    UIManager.UIObjects.Clear();
@@ -43,13 +43,12 @@ public static class SceneLoadManager
             }
             else
             {
-                loadValue= load.progress;  
-                Debug.Log(load.progress);
+                LoadValue= load.progress;  
             }
             yield return null;
         }
 
-        loadValue = 0;
+        LoadValue = 0;
       
     }
     

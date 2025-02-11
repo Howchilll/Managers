@@ -31,7 +31,7 @@ public static class UIManager
     }
     
 
-    public static void wake()
+    public static void Wake()
     {
     }
     public static void CleanUIObjects()

@@ -48,7 +48,7 @@ public static class MusicManager
             audioSource.clip = clip;
             audioSource.loop = true;
             audioSource.playOnAwake = false;
-            audioSource.volume = Mathf.Clamp01(volume) * SettingData.VolumeData.MusicVol;
+            audioSource.volume = Mathf.Clamp01(volume) * SettingData.data.volumeData.MusicVol;
 
             if (father != null)
             {
@@ -75,7 +75,7 @@ public static class MusicManager
     {
         foreach (AudioSource audioSource in _asDic.Values)
         {
-            audioSource.volume *= SettingData.VolumeData.MusicVol*vol;
+            audioSource.volume *= SettingData.data.volumeData.MusicVol*vol;
         }
     }
 
